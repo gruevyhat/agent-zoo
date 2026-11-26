@@ -2,7 +2,7 @@
 
 Infographic field guides to LLM agent architectures, in the style of the old neural-network "model zoo" posters. 64 patterns across four volumes.
 
-**View it live:** https://gruevyhat.github.io/agent-zoo/
+**View it live:** https://horwoodg.github.io/agent-zoo/
 
 | File | Contents |
 |---|---|
