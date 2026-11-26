@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Agent Zoo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#2563EB}a:hover{color:#1D4ED8}
+</style>
+</head>
+<body>
+<div style="width: 1600px; min-height: 2300px; box-sizing: border-box; padding: 72px; background: #F3F4F6; font-family: Inter, system-ui, sans-serif; color: #111827; display: flex; flex-direction: column; gap: 36px">
+
+<header style="display: flex; justify-content: space-between; align-items: flex-end; gap: 48px; flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 15px; letter-spacing: 0.12em; color: #4B5563">A FIELD GUIDE TO LLM AGENT ARCHITECTURES</p>
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 96px; line-height: 1; letter-spacing: -0.02em">The Agent Zoo</h1>
+<p style="margin: 0; font-size: 20px; line-height: 1.45; color: #374151; max-width: 860px">Sixteen common ways to wire models, tools, memory and people together, drawn in the style of the old neural-network zoo posters. Most real systems are two or three of these stacked.</p>
+</div>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4B5563; max-width: 380px">Solid edges always fire. Dashed edges are conditional: taken by some runs, decided at run time, or used only on failure.</p>
+</header>
+
+<section aria-label="Legend" style="display: flex; flex-wrap: wrap; gap: 28px; align-items: center; background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 18px 24px">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; color: #4B5563">LEGEND</span>
+<span style="display: flex; align-items: center; gap: 10px; font-size: 15px"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="8" fill="#D1D5DB"></circle></svg>Input / output</span>
+<span style="display: flex; align-items: center; gap: 10px; font-size: 15px"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="#F2B705"></circle></svg>LLM call</span>
+<span style="display: flex; align-items: center; gap: 10px; font-size: 15px"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="4" fill="#2563EB"></rect></svg>Tool</span>
+<span style="display: flex; align-items: center; gap: 10px; font-size: 15px"><svg width="32" height="20" viewBox="0 0 32 20" aria-hidden="true"><rect x="1" y="1" width="30" height="18" rx="9" fill="#7C3AED"></rect></svg>Memory / shared state</span>
+<span style="display: flex; align-items: center; gap: 10px; font-size: 15px"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="10" fill="#FFFFFF" stroke="#DC2626" stroke-width="4"></circle></svg>Critic / judge / gate</span>
+<span style="display: flex; align-items: center; gap: 10px; font-size: 15px"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="10" fill="#FFFFFF" stroke="#111827" stroke-width="3"></circle><circle cx="13" cy="13" r="3" fill="#111827"></circle></svg>Human</span>
+<span style="display: flex; align-items: center; gap: 10px; font-size: 15px"><svg width="34" height="24" viewBox="0 0 34 24" aria-hidden="true"><rect x="1" y="1" width="32" height="22" rx="3" fill="#16A34A"></rect></svg>Environment / sandbox</span>
+</section>
+
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px">
+
+<!-- 01 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">01</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Augmented LLM</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. tool-calling LLM, RAG</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="Input to one LLM call with a tool and memory attached, then output"><defs><marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="50" y1="65" x2="134" y2="65" marker-end="url(#m1)"></line><line x1="166" y1="65" x2="250" y2="65" marker-end="url(#m1)"></line><line x1="150" y1="51" x2="150" y2="36" marker-start="url(#m1)" marker-end="url(#m1)"></line><line x1="150" y1="79" x2="150" y2="96" marker-start="url(#m1)" marker-end="url(#m1)"></line></g>
+<circle cx="40" cy="65" r="9" fill="#D1D5DB"></circle><circle cx="150" cy="65" r="13" fill="#F2B705"></circle><rect x="139" y="11" width="22" height="22" rx="4" fill="#2563EB"></rect><rect x="135" y="99" width="30" height="18" rx="9" fill="#7C3AED"></rect><circle cx="260" cy="65" r="9" fill="#D1D5DB"></circle></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">One model call with tools, retrieval and memory bolted on. The cell every other pattern is built from.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> the job needs more than one step.</p>
+</div>
+
+<!-- 02 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">02</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Prompt chain</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. pipeline, workflow</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="Input, LLM, gate check, LLM, output in a fixed line"><defs><marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="39" y1="65" x2="75" y2="65" marker-end="url(#m2)"></line><line x1="105" y1="65" x2="136" y2="65" marker-end="url(#m2)"></line><line x1="164" y1="65" x2="195" y2="65" marker-end="url(#m2)"></line><line x1="225" y1="65" x2="259" y2="65" marker-end="url(#m2)"></line><path d="M150 79 L150 110" stroke-dasharray="5 4" marker-end="url(#m2)"></path></g>
+<circle cx="30" cy="65" r="9" fill="#D1D5DB"></circle><circle cx="90" cy="65" r="13" fill="#F2B705"></circle><circle cx="150" cy="65" r="10" fill="#FFFFFF" stroke="#DC2626" stroke-width="4"></circle><circle cx="210" cy="65" r="13" fill="#F2B705"></circle><circle cx="270" cy="65" r="9" fill="#D1D5DB"></circle>
+<text x="160" y="118" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">fail out</text></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">A fixed sequence of calls. Code decides the order, not the model; checks between steps catch bad hand-offs.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> an input doesn't fit the script.</p>
+</div>
+
+<!-- 03 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">03</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Router</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. classify-and-dispatch</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="A router LLM sends input down one of three specialist LLM paths"><defs><marker id="m3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="39" y1="65" x2="85" y2="65" marker-end="url(#m3)"></line><line x1="112" y1="58" x2="176" y2="30" marker-end="url(#m3)"></line><line x1="115" y1="65" x2="175" y2="65" stroke-dasharray="5 4" marker-end="url(#m3)"></line><line x1="112" y1="72" x2="176" y2="100" stroke-dasharray="5 4" marker-end="url(#m3)"></line><line x1="203" y1="30" x2="255" y2="59" marker-end="url(#m3)"></line><line x1="205" y1="65" x2="254" y2="65" stroke-dasharray="5 4" marker-end="url(#m3)"></line><line x1="203" y1="100" x2="255" y2="71" stroke-dasharray="5 4" marker-end="url(#m3)"></line></g>
+<circle cx="30" cy="65" r="9" fill="#D1D5DB"></circle><circle cx="100" cy="65" r="13" fill="#F2B705"></circle><circle cx="190" cy="25" r="12" fill="#F2B705"></circle><circle cx="190" cy="65" r="12" fill="#F2B705" opacity="0.45"></circle><circle cx="190" cy="105" r="12" fill="#F2B705" opacity="0.45"></circle><circle cx="265" cy="65" r="9" fill="#D1D5DB"></circle></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">One call classifies the request and sends it down a single specialist path.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> it misroutes. The error is silent and looks like the specialist's fault.</p>
+</div>
+
+<!-- 04 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">04</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Parallel / voting</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. sectioning, self-consistency</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="Input fans out to three LLM calls at once, an aggregator LLM merges them"><defs><marker id="m4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="39" y1="60" x2="105" y2="31" marker-end="url(#m4)"></line><line x1="39" y1="65" x2="105" y2="65" marker-end="url(#m4)"></line><line x1="39" y1="70" x2="105" y2="99" marker-end="url(#m4)"></line><line x1="133" y1="31" x2="197" y2="59" marker-end="url(#m4)"></line><line x1="135" y1="65" x2="195" y2="65" marker-end="url(#m4)"></line><line x1="133" y1="99" x2="197" y2="71" marker-end="url(#m4)"></line><line x1="225" y1="65" x2="259" y2="65" marker-end="url(#m4)"></line></g>
+<circle cx="30" cy="65" r="9" fill="#D1D5DB"></circle><circle cx="120" cy="25" r="12" fill="#F2B705"></circle><circle cx="120" cy="65" r="12" fill="#F2B705"></circle><circle cx="120" cy="105" r="12" fill="#F2B705"></circle><circle cx="210" cy="65" r="13" fill="#F2B705"></circle><circle cx="270" cy="65" r="9" fill="#D1D5DB"></circle>
+<text x="210" y="98" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">merge / vote</text></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">The same task, or slices of it, run as several calls at once. An aggregator merges or takes the majority.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> the errors are correlated, so they vote together.</p>
+</div>
+
+<!-- 05 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">05</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">ReAct loop</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. think–act–observe, "the agent loop"</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="An LLM acts on an environment, observes the result and repeats, then outputs"><defs><marker id="m5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="39" y1="55" x2="95" y2="55" marker-end="url(#m5)"></line><path d="M123 48 Q160 12 200 41" marker-end="url(#m5)"></path><path d="M200 69 Q160 98 123 62" marker-end="url(#m5)"></path><line x1="110" y1="69" x2="110" y2="104" stroke-dasharray="5 4" marker-end="url(#m5)"></line></g>
+<circle cx="30" cy="55" r="9" fill="#D1D5DB"></circle><circle cx="110" cy="55" r="13" fill="#F2B705"></circle><rect x="203" y="43" width="40" height="26" rx="3" fill="#16A34A"></rect><circle cx="110" cy="115" r="9" fill="#D1D5DB"></circle>
+<text x="160" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">act (tool call)</text><text x="160" y="104" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">observe</text><text x="124" y="96" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">done?</text></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">The model picks an action, reads the result and goes again until it decides it is finished.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> it loops, drifts, or has no real notion of "done".</p>
+</div>
+
+<!-- 06 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">06</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Plan-and-execute</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. planner–executor, ReWOO</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="A planner LLM writes steps, executor LLMs run them in order, failures trigger a replan"><defs><marker id="m6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="34" y1="80" x2="64" y2="80" marker-end="url(#m6)"></line><line x1="96" y1="80" x2="131" y2="80" marker-end="url(#m6)"></line><line x1="159" y1="80" x2="181" y2="80" marker-end="url(#m6)"></line><line x1="209" y1="80" x2="231" y2="80" marker-end="url(#m6)"></line><line x1="259" y1="80" x2="276" y2="80" marker-end="url(#m6)"></line><path d="M245 67 Q165 10 86 64" stroke-dasharray="5 4" marker-end="url(#m6)"></path></g>
+<circle cx="25" cy="80" r="9" fill="#D1D5DB"></circle><circle cx="80" cy="80" r="15" fill="#F2B705"></circle><circle cx="145" cy="80" r="10" fill="#F2B705"></circle><circle cx="195" cy="80" r="10" fill="#F2B705"></circle><circle cx="245" cy="80" r="10" fill="#F2B705"></circle><circle cx="285" cy="80" r="9" fill="#D1D5DB"></circle>
+<text x="165" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">replan on failure</text><text x="80" y="114" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">plan</text><text x="195" y="114" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">execute steps</text></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">A planner writes the steps up front, cheaper executors run them, and the plan is revised when a step fails.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> the plan meets the environment and rots.</p>
+</div>
+
+<!-- 07 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">07</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Evaluator–optimizer</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. Reflexion, self-refine, generate–critique</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="A generator LLM drafts, a critic scores and sends feedback until the draft passes"><defs><marker id="m7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="39" y1="65" x2="105" y2="65" marker-end="url(#m7)"></line><path d="M132 57 Q165 28 198 57" marker-end="url(#m7)"></path><path d="M198 73 Q165 102 132 73" stroke-dasharray="5 4" marker-end="url(#m7)"></path><line x1="224" y1="65" x2="259" y2="65" marker-end="url(#m7)"></line></g>
+<circle cx="30" cy="65" r="9" fill="#D1D5DB"></circle><circle cx="120" cy="65" r="13" fill="#F2B705"></circle><circle cx="210" cy="65" r="11" fill="#FFFFFF" stroke="#DC2626" stroke-width="4"></circle><circle cx="270" cy="65" r="9" fill="#D1D5DB"></circle>
+<text x="165" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">draft</text><text x="165" y="112" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">feedback</text><text x="242" y="52" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">pass</text></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">A generator drafts, a critic scores the draft and sends back notes, round after round until it passes.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> the critic shares the generator's blind spots.</p>
+</div>
+
+<!-- 08 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">08</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Orchestrator–workers</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. lead agent + subagents</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="An orchestrator LLM decides at run time which worker LLMs to start, then a synthesizer combines their results"><defs><marker id="m8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="34" y1="65" x2="62" y2="65" marker-end="url(#m8)"></line><line x1="94" y1="57" x2="144" y2="31" stroke-dasharray="5 4" marker-end="url(#m8)"></line><line x1="96" y1="65" x2="143" y2="65" stroke-dasharray="5 4" marker-end="url(#m8)"></line><line x1="94" y1="73" x2="144" y2="99" stroke-dasharray="5 4" marker-end="url(#m8)"></line><line x1="166" y1="31" x2="212" y2="58" marker-end="url(#m8)"></line><line x1="167" y1="65" x2="210" y2="65" marker-end="url(#m8)"></line><line x1="166" y1="99" x2="212" y2="72" marker-end="url(#m8)"></line><line x1="240" y1="65" x2="269" y2="65" marker-end="url(#m8)"></line></g>
+<circle cx="25" cy="65" r="9" fill="#D1D5DB"></circle><circle cx="78" cy="65" r="16" fill="#F2B705"></circle><circle cx="155" cy="25" r="10" fill="#F2B705"></circle><circle cx="155" cy="65" r="10" fill="#F2B705"></circle><circle cx="155" cy="105" r="10" fill="#F2B705"></circle><circle cx="225" cy="65" r="13" fill="#F2B705"></circle><circle cx="280" cy="65" r="9" fill="#D1D5DB"></circle>
+<text x="78" y="102" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">split</text><text x="225" y="98" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">synthesize</text></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">A lead model decides at run time how to split the work, hands pieces to fresh workers and stitches the results.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> context is lost in the hand-off and cost multiplies.</p>
+</div>
+
+<!-- 09 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">09</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Hierarchical</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. supervisor tree, manager agents</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="A top LLM supervises two manager LLMs, each of which drives two tools"><defs><marker id="m9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="141" y1="28" x2="101" y2="51" marker-end="url(#m9)"></line><line x1="159" y1="28" x2="199" y2="51" marker-end="url(#m9)"></line><line x1="84" y1="73" x2="64" y2="95" marker-end="url(#m9)"></line><line x1="96" y1="73" x2="110" y2="95" marker-end="url(#m9)"></line><line x1="204" y1="73" x2="190" y2="95" marker-end="url(#m9)"></line><line x1="216" y1="73" x2="236" y2="95" marker-end="url(#m9)"></line></g>
+<circle cx="150" cy="18" r="13" fill="#F2B705"></circle><circle cx="90" cy="62" r="12" fill="#F2B705"></circle><circle cx="210" cy="62" r="12" fill="#F2B705"></circle><rect x="47" y="98" width="22" height="22" rx="4" fill="#2563EB"></rect><rect x="107" y="98" width="22" height="22" rx="4" fill="#2563EB"></rect><rect x="174" y="98" width="22" height="22" rx="4" fill="#2563EB"></rect><rect x="234" y="98" width="22" height="22" rx="4" fill="#2563EB"></rect></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">Managers delegate to sub-managers, who delegate to workers that actually hold the tools.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> you rebuild org-chart overhead, now billed in tokens.</p>
+</div>
+
+<!-- 10 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">10</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Handoff / swarm</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. peer-to-peer agents, transfer-of-control</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="Three peer LLM agents pass control around a cycle; whichever holds control answers"><defs><marker id="m10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="34" y1="65" x2="65" y2="65" marker-end="url(#m10)"></line><line x1="92" y1="57" x2="157" y2="32" marker-end="url(#m10)"></line><line x1="170" y1="39" x2="170" y2="90" marker-end="url(#m10)"></line><line x1="157" y1="100" x2="93" y2="73" marker-end="url(#m10)"></line><line x1="183" y1="101" x2="252" y2="70" marker-end="url(#m10)"></line><line x1="183" y1="29" x2="252" y2="60" stroke-dasharray="5 4" marker-end="url(#m10)"></line></g>
+<circle cx="25" cy="65" r="9" fill="#D1D5DB"></circle><circle cx="80" cy="65" r="13" fill="#F2B705"></circle><circle cx="170" cy="25" r="13" fill="#F2B705"></circle><circle cx="170" cy="105" r="13" fill="#F2B705"></circle><circle cx="262" cy="65" r="9" fill="#D1D5DB"></circle></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">Peers pass control, and the conversation, to whichever agent fits the next turn. No central boss.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> nobody owns the outcome.</p>
+</div>
+
+<!-- 11 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">11</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Debate / jury</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. multi-agent debate, LLM council</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="Two LLMs argue with each other, a judge picks the answer"><defs><marker id="m11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="39" y1="60" x2="96" y2="36" marker-end="url(#m11)"></line><line x1="39" y1="70" x2="96" y2="94" marker-end="url(#m11)"></line><line x1="110" y1="45" x2="110" y2="85" marker-start="url(#m11)" marker-end="url(#m11)"></line><line x1="123" y1="35" x2="197" y2="60" marker-end="url(#m11)"></line><line x1="123" y1="95" x2="197" y2="70" marker-end="url(#m11)"></line><line x1="224" y1="65" x2="259" y2="65" marker-end="url(#m11)"></line></g>
+<circle cx="30" cy="65" r="9" fill="#D1D5DB"></circle><circle cx="110" cy="30" r="13" fill="#F2B705"></circle><circle cx="110" cy="100" r="13" fill="#F2B705"></circle><circle cx="210" cy="65" r="11" fill="#FFFFFF" stroke="#DC2626" stroke-width="4"></circle><circle cx="270" cy="65" r="9" fill="#D1D5DB"></circle>
+<text x="118" y="69" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">rounds</text><text x="210" y="98" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">judge</text></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">Agents argue competing answers over a few rounds, and a judge picks the winner.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> the judge rewards confidence and length.</p>
+</div>
+
+<!-- 12 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">12</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Blackboard</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. shared workspace, stigmergy</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="Four LLM agents read and write one shared memory in the middle"><defs><marker id="m12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="73" y1="31" x2="117" y2="53" marker-start="url(#m12)" marker-end="url(#m12)"></line><line x1="227" y1="31" x2="183" y2="53" marker-start="url(#m12)" marker-end="url(#m12)"></line><line x1="73" y1="99" x2="117" y2="77" marker-start="url(#m12)" marker-end="url(#m12)"></line><line x1="227" y1="99" x2="183" y2="77" marker-start="url(#m12)" marker-end="url(#m12)"></line></g>
+<rect x="118" y="50" width="64" height="30" rx="15" fill="#7C3AED"></rect><circle cx="60" cy="25" r="13" fill="#F2B705"></circle><circle cx="240" cy="25" r="13" fill="#F2B705"></circle><circle cx="60" cy="105" r="13" fill="#F2B705"></circle><circle cx="240" cy="105" r="13" fill="#F2B705"></circle></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">Agents read and write one shared workspace. Whoever can add something next does; nobody calls anybody.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> writes collide or state goes stale.</p>
+</div>
+
+<!-- 13 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">13</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Tree search</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. Tree of Thoughts, LATS, MCTS agents</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="An LLM branches into candidate steps; scored best branches are expanded and the rest pruned"><defs><marker id="m13" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="53" y1="59" x2="108" y2="31" stroke-dasharray="5 4" marker-end="url(#m13)"></line><line x1="54" y1="65" x2="106" y2="65" marker-end="url(#m13)"></line><line x1="53" y1="71" x2="108" y2="99" stroke-dasharray="5 4" marker-end="url(#m13)"></line><line x1="133" y1="60" x2="187" y2="48" marker-end="url(#m13)"></line><line x1="133" y1="70" x2="187" y2="82" stroke-dasharray="5 4" marker-end="url(#m13)"></line><line x1="214" y1="45" x2="259" y2="45" marker-end="url(#m13)"></line></g>
+<circle cx="40" cy="65" r="13" fill="#F2B705"></circle><circle cx="120" cy="25" r="10" fill="#F2B705" opacity="0.4"></circle><circle cx="120" cy="65" r="11" fill="#F2B705" stroke="#DC2626" stroke-width="3"></circle><circle cx="120" cy="105" r="10" fill="#F2B705" opacity="0.4"></circle><circle cx="200" cy="45" r="11" fill="#F2B705" stroke="#DC2626" stroke-width="3"></circle><circle cx="200" cy="85" r="10" fill="#F2B705" opacity="0.4"></circle><circle cx="270" cy="45" r="9" fill="#D1D5DB"></circle>
+<text x="200" y="120" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">score, expand, prune</text></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">Branch several candidate next steps, score them, expand the most promising and backtrack from dead ends.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> you don't have a scorer you trust. Also expensive.</p>
+</div>
+
+<!-- 14 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">14</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Code-as-action</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. CodeAct, computer use, coding agents</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="An LLM writes code or clicks that run in a sandbox; output or screenshots come back"><defs><marker id="m14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="39" y1="55" x2="85" y2="55" marker-end="url(#m14)"></line><path d="M113 47 Q147 18 180 40" marker-end="url(#m14)"></path><path d="M180 72 Q147 95 113 63" marker-end="url(#m14)"></path><line x1="100" y1="69" x2="100" y2="104" stroke-dasharray="5 4" marker-end="url(#m14)"></line></g>
+<circle cx="30" cy="55" r="9" fill="#D1D5DB"></circle><circle cx="100" cy="55" r="13" fill="#F2B705"></circle><rect x="183" y="33" width="84" height="46" rx="4" fill="#16A34A"></rect><circle cx="100" cy="115" r="9" fill="#D1D5DB"></circle>
+<text x="225" y="61" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="15" font-weight="600" fill="#FFFFFF">&gt;_ run</text><text x="147" y="17" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">code / clicks</text><text x="150" y="104" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">stdout / screenshot</text></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">A ReAct loop where the actions are code, shell commands or mouse clicks, run in a sandbox that reports back.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> the sandbox is your only security boundary and isn't one.</p>
+</div>
+
+<!-- 15 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">15</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Memory-tiered</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. MemGPT-style, long-running agent</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="An LLM runs in a long loop, paging facts between working context and an archive"><defs><marker id="m15" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="39" y1="65" x2="95" y2="65" marker-end="url(#m15)"></line><path d="M102 54 C82 8 140 8 119 53" marker-end="url(#m15)"></path><line x1="124" y1="60" x2="160" y2="47" marker-start="url(#m15)" marker-end="url(#m15)"></line><line x1="198" y1="50" x2="232" y2="82" marker-start="url(#m15)" marker-end="url(#m15)"></line><line x1="110" y1="79" x2="110" y2="104" stroke-dasharray="5 4" marker-end="url(#m15)"></line></g>
+<circle cx="30" cy="65" r="9" fill="#D1D5DB"></circle><circle cx="110" cy="65" r="13" fill="#F2B705"></circle><rect x="163" y="32" width="36" height="18" rx="9" fill="#7C3AED"></rect><rect x="230" y="84" width="56" height="26" rx="13" fill="#7C3AED"></rect><circle cx="110" cy="115" r="9" fill="#D1D5DB"></circle>
+<text x="181" y="24" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">context</text><text x="258" y="124" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">archive</text><text x="230" y="60" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">page in/out</text><text x="146" y="14" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">hours, days</text></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">The model pages facts between a small working context and a large archive, so one run can last days.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> retrieval decides what it remembers, and you don't.</p>
+</div>
+
+<!-- 16 -->
+<div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; align-items: baseline; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #6B7280">16</span><h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 23px">Human-in-the-loop</h2></div>
+<p style="margin: 0; font-size: 13px; color: #6B7280">a.k.a. approval gate, interrupt-and-resume</p>
+<svg viewBox="0 0 300 130" width="100%" height="130" role="img" aria-label="An LLM proposes an action, a human approves or rejects it before the tool touches the environment"><defs><marker id="m16" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#6B7280"></path></marker></defs>
+<g stroke="#6B7280" stroke-width="2" fill="none"><line x1="34" y1="70" x2="70" y2="70" marker-end="url(#m16)"></line><line x1="99" y1="70" x2="146" y2="70" marker-end="url(#m16)"></line><line x1="174" y1="70" x2="211" y2="70" marker-end="url(#m16)"></line><line x1="238" y1="70" x2="254" y2="70" marker-end="url(#m16)"></line><path d="M151 58 Q122 28 94 58" stroke-dasharray="5 4" marker-end="url(#m16)"></path></g>
+<circle cx="25" cy="70" r="9" fill="#D1D5DB"></circle><circle cx="85" cy="70" r="13" fill="#F2B705"></circle><circle cx="160" cy="70" r="11" fill="#FFFFFF" stroke="#111827" stroke-width="3"></circle><circle cx="160" cy="70" r="3" fill="#111827"></circle><rect x="214" y="59" width="22" height="22" rx="4" fill="#2563EB"></rect><rect x="257" y="58" width="38" height="24" rx="3" fill="#16A34A"></rect>
+<text x="122" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">reject, revise</text><text x="192" y="104" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#6B7280">approve</text></svg>
+<p style="margin: 0; font-size: 15px; line-height: 1.45; color: #1F2937">A person approves side-effectful actions at defined gates: sends, payments, deletes, deploys.</p>
+<p style="margin: 0; font-size: 14px; line-height: 1.45; color: #374151"><strong style="color: #B91C1C">Breaks when:</strong> approval fatigue turns the gate into a rubber stamp.</p>
+</div>
+
+</div>
+
+<footer style="margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap; border-top: 2px solid #111827; padding-top: 24px">
+<p style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; max-width: 1000px">Start at 01. Move to a bigger animal only when you can name the failure it fixes.</p>
+<p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4B5563; max-width: 360px">Most production "agents" are 01 or 02 with a for-loop. That's fine. Say so.</p>
+</footer>
+
+</div>
+</body>
+</html>
