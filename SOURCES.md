@@ -44,6 +44,27 @@ Gathered November 2026. Grades match the badges on the tiles.
 | 47 | Worktree fan-out | Shipped feature | https://developers.openai.com/codex/app/worktrees |
 | 48 | Async cloud agent | Shipped feature | Willison, *Parallel coding agents.* https://simonwillison.net/2025/Oct/5/parallel-coding-agents/ |
 
+## Vol. IV: Multimodal species
+
+| # | Pattern | Grade | Source |
+|---|---|---|---|
+| 49 | Active perception | Peer-reviewed (ICLR 2026) | Zheng et al. *DeepEyes.* https://arxiv.org/abs/2505.14362 · crop-reliance critique: https://arxiv.org/abs/2603.27494 |
+| 50 | Visual programming | Preprint + code | Surís et al. *ViperGPT.* https://arxiv.org/abs/2303.08128 · Gupta & Kembhavi *VisProg.* https://arxiv.org/abs/2211.11559 |
+| 51 | Video search agent | Preprint + code | Wang et al. *VideoAgent.* https://arxiv.org/abs/2403.10517 · Fan et al. https://arxiv.org/abs/2403.11481 |
+| 52 | Page-image retrieval | Peer-reviewed (ICLR 2025) | Faysse et al. *ColPali.* https://arxiv.org/abs/2407.01449 |
+| 53 | Planner + grounder | Preprint + code | *Agent S2.* https://arxiv.org/abs/2504.00906 |
+| 54 | Set-of-Mark | Preprint + code | Yang et al. https://arxiv.org/abs/2310.11441 |
+| 55 | Pixels + structure | Preprint + code | Xie et al. *OSWorld.* https://os-world.github.io |
+| 56 | Imagine before clicking | Preprint + code | Gu et al. *WebDreamer.* https://arxiv.org/abs/2411.06559 |
+| 57 | Voice cascade | Shipped / industry | https://docs.livekit.io/agents/models/pipeline-types/ · https://deepgram.com/blog/speech-to-speech-vs-cascade-voice-agent-architecture |
+| 58 | Full-duplex speech | Preprint + code | Défossez et al. *Moshi.* https://arxiv.org/abs/2410.00037 |
+| 59 | Half-cascade | Vendor claim (second-hand) | https://justcall.io/blog/speech-to-speech-vs-cascaded-voice-agents.html |
+| 60 | Generate, look, revise | Peer-reviewed (ECCV 2024) | Yang et al. *Idea2Img.* https://arxiv.org/abs/2310.08541 |
+| 61 | Dual-system VLA | Vendor write-up + preprints | GR00T N1 https://arxiv.org/abs/2503.14734 · OpenHelix survey https://arxiv.org/abs/2505.03912 |
+| 62 | Say × Can | Peer-reviewed (CoRL 2022) | Ahn et al. *SayCan.* https://arxiv.org/abs/2204.01691 |
+| 63 | Code skill library | Preprint + code | Wang et al. *Voyager.* https://arxiv.org/abs/2305.16291 |
+| 64 | VLM success detector | Preprints | Du et al. https://arxiv.org/abs/2303.07280 · *FailBench* https://arxiv.org/abs/2609.03611 |
+
 ## Vol. I: Classic species
 
 Written from general knowledge, not a fresh search. Most patterns trace to Anthropic's *Building effective agents* (Dec 2024), Yao et al. *ReAct* (2022), Shinn et al. *Reflexion* (2023), Yao et al. *Tree of Thoughts* (2023), Packer et al. *MemGPT* (2023), and Wang et al. *CodeAct* (2024).
